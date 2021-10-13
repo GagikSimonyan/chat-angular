@@ -1,19 +1,33 @@
-<form class="form">
+<form class="form" [formGroup]="formGroup" (ngSubmit)="submit()">
     <h2 class="form__title">Sign In</h2>
     <mat-form-field class="form__field" appearance="standard">
       <mat-label class="form__label">Email</mat-label>
-      <input class="form__input" matInput placeholder="" >
+      <input class="form__input" matInput formControlName="email">
       <mat-icon class="form__icon" matSuffix>mail</mat-icon>
+      <mat-error *ngIf="formGroup.hasError('required', 'email')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <!-- <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error> -->
     </mat-form-field>
 
     <mat-form-field class="form__field" appearance="standard">
       <mat-label class="form__label">Password</mat-label>
-      <input class="form__input" matInput placeholder="">
+      <input class="form__input" matInput formControlName="password">
       <mat-icon class="form__icon" matSuffix>lock</mat-icon>
+      <mat-error *ngIf="formGroup.hasError('required', 'password')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <!-- <mat-error *ngIf="password.errors?.minlength">
+        Password should be at least 6 characters
+      </mat-error> -->
     </mat-form-field>
 
-    <button class="form__btn btn" mat-raised-button color="primary">Sign In</button>
+    <button class="form__btn btn" type="submit" mat-raised-button color="primary" [disabled]="formGroup.invalid">Sign In</button>
 
     <p class="form__text">Not registered? <a routerLink="/auth/sign-up" routerLinkActive="active">Create an acount</a></p>
+
+    <!-- {{formGroup.get('email').errors | json}} -->
 </form>
 

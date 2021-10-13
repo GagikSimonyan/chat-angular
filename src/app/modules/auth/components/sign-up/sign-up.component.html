@@ -1,22 +1,31 @@
-<form class="form">
+<form class="form" [formGroup]="form">
       <h2 class="form__title">Sign Up</h2>
 
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Username</mat-label>
-        <input class="form__input" matInput placeholder="">
+        <input class="form__input" matInput  formControlName="username">
         <mat-icon class="form__icon" matSuffix>person</mat-icon>
+        <mat-error *ngIf="form.hasError('required', 'username')">
+            Username is <strong>required</strong>
+          </mat-error>
       </mat-form-field>
 
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Email</mat-label>
-        <input class="form__input" matInput placeholder="">
+        <input class="form__input" matInput formControlName="email">
         <mat-icon class="form__icon" matSuffix>mail</mat-icon>
+        <mat-error *ngIf="form.hasError('required', 'email')">
+            Email is <strong>required</strong>
+          </mat-error>
       </mat-form-field>
   
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Password</mat-label>
-        <input class="form__input" matInput placeholder="">
+        <input class="form__input" matInput formControlName="password">
         <mat-icon class="form__icon" matSuffix>lock</mat-icon>
+        <mat-error *ngIf="form.hasError('required', 'password')">
+            Password is <strong>required</strong>
+          </mat-error>
       </mat-form-field>
   
       <button class="form__btn btn" mat-raised-button color="primary">Sign Up</button>

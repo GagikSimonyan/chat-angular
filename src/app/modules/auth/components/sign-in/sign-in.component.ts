@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,18 +8,30 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class SignInComponent implements OnInit {
 
+  formGroup!: FormGroup;
+
   constructor(
     private cdRef: ChangeDetectorRef
   ) { }
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 
   ngOnInit() {
     setTimeout(() => {
       this.cdRef.detectChanges()  
     });
+
+    this.formGroup = new FormGroup({
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6)
+      ]),
+    })
+  }
+
+  submit() {
+    console.log(this.formGroup.value);
   }
 }
