@@ -1,34 +1,35 @@
-<form class="form" [formGroup]="form">
+<form class="form" [formGroup]="form" (ngSubmit)="signUp()">
       <h2 class="form__title">Sign Up</h2>
 
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Username</mat-label>
         <input class="form__input" matInput  formControlName="username">
         <mat-icon class="form__icon" matSuffix>person</mat-icon>
-        <mat-error *ngIf="form.hasError('required', 'username')">
-            Username is <strong>required</strong>
-          </mat-error>
+<!--        <mat-error>-->
+<!--          {{getControlError(form.get('username'))}}-->
+<!--        </mat-error>-->
       </mat-form-field>
 
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Email</mat-label>
         <input class="form__input" matInput formControlName="email">
+<!--        <pre>{{form.get('email')?.errors | json}}</pre>-->
         <mat-icon class="form__icon" matSuffix>mail</mat-icon>
-        <mat-error *ngIf="form.hasError('required', 'email')">
-            Email is <strong>required</strong>
-          </mat-error>
+<!--        <mat-error>-->
+<!--          {{getControlError(form.controls.email)}}-->
+<!--         </mat-error>-->
       </mat-form-field>
-  
+
       <mat-form-field class="form__field" appearance="standard">
         <mat-label class="form__label">Password</mat-label>
         <input class="form__input" matInput formControlName="password">
         <mat-icon class="form__icon" matSuffix>lock</mat-icon>
-        <mat-error *ngIf="form.hasError('required', 'password')">
-            Password is <strong>required</strong>
-          </mat-error>
+<!--        <mat-error >-->
+<!--            {{getControlError(form.controls.password)}}-->
+<!--          </mat-error>-->
       </mat-form-field>
-  
-      <button class="form__btn btn" mat-raised-button color="primary">Sign Up</button>
-  
-      <p class="form__text">Don't have an Account? <a routerLink="/auth/sign-in" routerLinkActive="active">Login </a>now!</p>
+
+      <button class="form__btn btn" type="submit" mat-raised-button color="primary" [disabled]="form.invalid">Sign Up</button>
+
+      <p class="form__text">Don't have an Account? <a [routerLink]="['/', 'auth', 'sign-in']" >Login </a>now!</p>
   </form>

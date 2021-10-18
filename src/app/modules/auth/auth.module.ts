@@ -10,6 +10,9 @@ import {MatButtonModule} from '@angular/material/button';
 
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import {SignInService} from "./services/sign-in.service";
+import {SignUpService} from "./services/sign-up.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -26,6 +29,11 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    HttpClientModule
+  ],
+  providers: [
+    SignInService,
+    SignUpService
   ]
 })
 export class AuthModule { }

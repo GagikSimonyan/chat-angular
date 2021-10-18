@@ -15,7 +15,7 @@ body {
 }
 
 h1{
-    margin: 0;  
+    margin: 0;
 }
 
 a{
@@ -41,4 +41,8 @@ form {
 
 .mat-typography p {
     margin: 0px;
+}
+
+.form__text a {
+  text-decoration: underline;
 }
