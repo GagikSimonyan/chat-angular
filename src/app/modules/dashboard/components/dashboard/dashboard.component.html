@@ -1,32 +1,23 @@
-<div class="dashboard">
-    <router-outlet></router-outlet>
+<div class="dashboard" >
+<!--    <router-outlet></router-outlet>-->
 
         <aside class="chat-users">
             <div class="search">
                 <input type="text" placeholder="Search" class="search__input">
             </div>
-            <ul class="chat-users__list">
-                <li class="chat-user">
+            <ul class="chat-users__list" >
+                <li class="chat-user"
+                    *ngFor="let chatMember of chatMembers"
+                    (click)="getSelectedUserId(chatMember)">
                     <img class="chat-user__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                    <div><p class="chat-user__name">Gor Melqonyan</p> </div>
+                    <div><p class="chat-user__name">{{chatMember.username}}</p> </div>
                 </li>
-                <li class="chat-user">
-                    <img class="chat-user__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_03.jpg" alt="">
-                    <div><p class="chat-user__name">Ashot Sargsyan</p></div>
-                </li>
-
             </ul>
         </aside>
 
 
-
-
         <main>
             <div class="message__block">
-                <div class="currentUser">
-                    <img class="currentUser__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                    <div><p class="currentUser__text">Chat with <span>Gor Melqonyan</span></p></div>
-                </div>              
                 <ul class="chat">
                     <li class="you">
                         <div class="message">
@@ -40,8 +31,12 @@
                     </li>
                 </ul>
                 <div class="type">
-                    <div><textarea placeholder="Type your message"></textarea></div>
-                    <button class="type__btn" type="button">Send</button>
+                    <div><textarea placeholder="Type your message" [(ngModel)]="message"></textarea></div>
+                  <button class="type__btn" type="button" (click)="sendData()">Send</button>
+                  <div class="room">
+                    <input class="room__input" placeholder="Select room">
+                    <button class="type__btn" type="button">Join</button>
+                    </div>
                 </div>
             </div>
         </main>

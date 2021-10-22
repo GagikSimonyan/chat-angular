@@ -24,5 +24,19 @@
       "password": "987654",
       "id": 4
     }
+  ],
+  "threads": [
+    {
+      "id": 1,
+      "members" : [3,4],
+      "messages" : [
+        {
+          "id": 1,
+          "senderId": 3,
+          "receiverId": 4,
+          "message": "test"
+        }
+      ]
+    }
   ]
 }

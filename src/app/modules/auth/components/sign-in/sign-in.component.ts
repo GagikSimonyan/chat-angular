@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {SignInService} from "../../services/sign-in.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../../../models/user.model";
 
 @Component({
   selector: 'app-sign-in',
@@ -11,12 +13,12 @@ import {Router} from "@angular/router";
 export class SignInComponent implements OnInit {
 
   form!: FormGroup;
-  // errorMessage: string = ''
 
   constructor(
     private cdRef: ChangeDetectorRef,
     private signInService: SignInService,
-    private route: Router
+    private route: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -37,10 +39,11 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    console.log('login: ', this.form.value)
-    this.signInService.signInUser(this.form.value).subscribe(users => {
+    this.signInService.signInUser(this.form.value)
+      .subscribe(users => {
         if (this.checkUserPassword(users)){
-          this.form.reset();
+          this.authService.currentUser$.next(users[0]);
+          localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser$.getValue()));
           this.route.navigate(['/dashboard']);
         }
     })
@@ -53,7 +56,7 @@ export class SignInComponent implements OnInit {
         return true;
       }
     }
-    // this.errorMessage = 'Enter correct password'
     return false;
   }
 }
+
