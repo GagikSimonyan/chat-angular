@@ -8,9 +8,10 @@
             <ul class="chat-users__list" >
                 <li class="chat-user"
                     *ngFor="let chatMember of chatMembers"
-                    (click)="getSelectedUserId(chatMember)">
+                    (click)="checkThread(chatMember)"
+                >
                     <img class="chat-user__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                    <div><p class="chat-user__name">{{chatMember.username}}</p> </div>
+                    <div><p class="chat-user__name">{{ chatMember.username }}</p> </div>
                 </li>
             </ul>
         </aside>
@@ -19,26 +20,30 @@
         <main>
             <div class="message__block">
                 <ul class="chat">
-                    <li class="you">
+                    <li class="you" *ngFor="let item of currentThread?.messages || []">
                         <div class="message">
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                            {{ item.message }}
                         </div>
                     </li>
-                    <li class="me">
-                        <div class="message">
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                        </div>
-                    </li>
+<!--                    <li class="me">-->
+<!--                      <div class="message">-->
+<!--                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.-->
+<!--                      </div>-->
+<!--                    </li>-->
                 </ul>
+
+<!--                <li *ngFor="let item of currentThread?.messages || []">-->
+<!--                  {{item.message}}-->
+<!--                </li>-->
+
                 <div class="type">
-                    <div><textarea placeholder="Type your message" [(ngModel)]="message"></textarea></div>
-                  <button class="type__btn" type="button" (click)="sendData()">Send</button>
-                  <div class="room">
-                    <input class="room__input" placeholder="Select room">
-                    <button class="type__btn" type="button">Join</button>
-                    </div>
+                    <div><textarea placeholder="Type your message" [(ngModel)]="newMessage"></textarea></div>
+                  <button class="type__btn" type="button" [disabled]="!isSelected" (click)="sendMessage()">Send Message</button>
+<!--                  <div class="room">-->
+<!--                    <input class="room__input" placeholder="Select room">-->
+<!--                    <button class="type__btn" type="button">Join</button>-->
+<!--                  </div>-->
                 </div>
             </div>
         </main>
-
 </div>

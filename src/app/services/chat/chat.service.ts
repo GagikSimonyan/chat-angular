@@ -1,9 +1,13 @@
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { io, Socket } from 'socket.io-client'
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {io} from 'socket.io-client'
 import {HttpClient} from "@angular/common/http";
 import {chatUser} from "../../models/chatUser.model";
 import {environment} from "../../../environments/environment";
+import {map, tap} from "rxjs/operators";
+import {Thread} from "../../models/thread.model";
+import {AuthService} from "../../modules/auth/services/auth.service";
+import {Message} from "../../models/message.model";
 
 
 @Injectable({
@@ -11,47 +15,51 @@ import {environment} from "../../../environments/environment";
 })
 export class ChatService {
 
-  //after calling the setupSocketConnection method, socket variable would be
-  // containing the connected socket object
-  private socket!: Socket;
+  public message$: BehaviorSubject<string> = new BehaviorSubject('');
 
-  constructor(private http: HttpClient) {}
-
-  setupSocketConnection() {
-    this.socket = io(environment.SOCKET_ENDPOINT);
-    this.socket.emit('my message', 'Hello there from Angular.');
-    this.socket.on('my broadcast', (data: string) => {
-      console.log(data);
-    });
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient
+  ) {
   }
+
+  socket = io(environment.SOCKET_ENDPOINT);
 
   getAllChatUsers(): Observable<chatUser[]> {
     return this.http.get<chatUser[]>(`${environment.baseUrl}/users`)
   }
 
-  // sendMessage(msg: string) {
-  //   this.socket.emit('sendMessage', { message: msg });
-  // }
+  public sendMessage(threadId: number, payload: Message) {
+    return this.http.post<Thread>(`${environment.baseUrl}/threads/${threadId}/messages`, payload)
+  }
 
+  public getNewMessage = () => {
+    this.socket.on('message', (message) => {
+      this.message$.next(message);
+    });
 
-  // joinRoom(data: any): void {
-  //   this.socket.emit('join', data);
-  // }
+    return this.message$.asObservable();
+  };
 
-  // sendMessage(data): void {
-  //   this.socket.emit('message', data);
-  // }
+  checkThreadExistence(memberId: number): Observable<Thread[]> {
+    return this.http.get<Thread[]>(`${environment.baseUrl}/threads`)
+      .pipe(
+        map(threads => {
+            return threads.filter(thread => {
+                return thread.members.includes(memberId) && thread.members.includes(this.authService.currentUser$.getValue().id)
+            })
+          }
+        )
+      )
+  }
 
-  // getMessage(): Observable<any> {
-  //   return new Observable<{user: string, message: string}>(observer => {
-  //     this.socket.on('new message', (data) => {
-  //       observer.next(data);
-  //     });
-  //
-  //     return () => {
-  //       this.socket.disconnect();
-  //     }
-  //   });
-  // }
+  createThread(thread: Thread) {
+    return this.http.post<Thread>(`${environment.baseUrl}/threads`, thread)
+  }
+
+  getConversationWithUser(threadId: number) {
+    return this.http.get<Message[]>(`${environment.baseUrl}/messages?threadId=${threadId}`)
+  }
 }
+
 
