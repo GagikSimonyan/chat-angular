@@ -20,7 +20,7 @@
     },
     {
       "username": "Davo",
-      "email": "Davo@gmail.com",
+      "email": "davo@gmail.com",
       "password": "987654",
       "id": 4
     }
@@ -47,6 +47,22 @@
       ],
       "messages": [],
       "id": 3
+    },
+    {
+      "members": [
+        4,
+        2
+      ],
+      "messages": [],
+      "id": 4
+    },
+    {
+      "members": [
+        4,
+        3
+      ],
+      "messages": [],
+      "id": 5
     }
   ],
   "messages": [
@@ -56,27 +72,6 @@
       "receiverId": 3,
       "message": "gor",
       "id": 1
-    },
-    {
-      "threadId": "1",
-      "senderId": 1,
-      "receiverId": 3,
-      "message": "gorrr",
-      "id": 2
-    },
-    {
-      "threadId": "1",
-      "senderId": 1,
-      "receiverId": 3,
-      "message": "gor2",
-      "id": 3
-    },
-    {
-      "threadId": "1",
-      "senderId": 1,
-      "receiverId": 3,
-      "message": "ggg",
-      "id": 4
     },
     {
       "threadId": "2",
@@ -100,18 +95,26 @@
       "id": 7
     },
     {
-      "threadId": "3",
-      "senderId": 1,
-      "receiverId": 4,
-      "message": "wadwadawdwadwad",
-      "id": 8
-    },
-    {
       "threadId": "2",
       "senderId": 1,
       "receiverId": 2,
       "message": "awdwadawd",
       "id": 9
+    },
+    {
+      "threadId": "3",
+      "senderId": 1,
+      "receiverId": 4,
+      "message": "inch ka?",
+      "id": 10
+    },
+    {
+      "threadId": "3",
+      "senderId": 1,
+      "receiverId": 4,
+      "message": "Dav?",
+      "date": 1635936352342,
+      "id": 11
     }
   ]
 }

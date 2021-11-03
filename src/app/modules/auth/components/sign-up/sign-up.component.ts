@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
 import {SignUpService} from "../../services/sign-up.service";
 import {Router} from "@angular/router";
-import {filter, switchMap, tap} from "rxjs/operators";
+import {filter, switchMap } from "rxjs/operators";
 
 const ERROR_MESSAGES: any = {
   email: () => 'invaid email',
@@ -31,12 +31,11 @@ export class SignUpComponent implements OnInit {
   }
 
   getControlError(control: any) {
-
     if (control.touched) {
       return ''
     }
 
-    for (const [key, value] of Object.entries(control.errors || {})) {
+    for(const [key, value] of Object.entries(control.errors || {})) {
       return ERROR_MESSAGES[key](value);
     }
 
@@ -49,7 +48,7 @@ export class SignUpComponent implements OnInit {
         filter(existingUsers => !existingUsers?.length),
         switchMap(() => this.signUpService.addNewUser(this.form.value)),
       )
-      .subscribe((data) => {
+      .subscribe(() => {
         this.route.navigate(['/dashboard'])
         this.form.reset();
       })

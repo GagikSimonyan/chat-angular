@@ -6,12 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    children: [
-      // {
-      //   path: ':userId',
-      //
-      // }
-    ]
   }
 ];
 

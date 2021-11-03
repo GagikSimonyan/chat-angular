@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {SignInService} from "../../services/sign-in.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
-import {User} from "../../../../models/user.model";
 
 @Component({
   selector: 'app-sign-in',
@@ -17,7 +16,7 @@ export class SignInComponent implements OnInit {
   constructor(
     private cdRef: ChangeDetectorRef,
     private signInService: SignInService,
-    private route: Router,
+    private router: Router,
     private authService: AuthService
   ) { }
 
@@ -44,7 +43,7 @@ export class SignInComponent implements OnInit {
         if (this.checkUserPassword(users)){
           this.authService.currentUser$.next(users[0]);
           localStorage.setItem('currentUser', JSON.stringify(this.authService.currentUser$.getValue()));
-          this.route.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard']);
         }
     })
   }

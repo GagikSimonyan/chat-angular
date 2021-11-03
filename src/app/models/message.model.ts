@@ -4,6 +4,7 @@ export class Message {
   senderId: number;
   receiverId: number;
   message: string;
+  date: number;
 
   constructor(data: any) {
     this.id = data.id;
@@ -11,5 +12,6 @@ export class Message {
     this.senderId = data.senderId;
     this.receiverId = data.receiverId;
     this.message = data.message;
+    this.date = data.date;
   }
 }

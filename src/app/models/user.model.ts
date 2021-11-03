@@ -1,5 +1,5 @@
 export class User {
-    id?: number;
+    id: number;
     userName: string;
     email: string;
     password: string;
@@ -11,6 +11,6 @@ export class User {
         this.password = data.password;
 
         // կամ հետևյալ ձև
-        // Object.assign(this, data);
+        Object.assign(this, data);
     }
-};
+}

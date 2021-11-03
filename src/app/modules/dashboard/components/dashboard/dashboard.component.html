@@ -22,7 +22,9 @@
                 <ul class="chat">
                     <li class="you" *ngFor="let item of currentThread?.messages || []">
                         <div class="message">
-                            {{ item.message }}
+                          <div class="message__img"><img src="assets/pug.jpg" alt="user"></div>
+                          <div class="message__text">{{ item.message }}</div>
+                          <p class="message__date">{{ item.date | date: 'short' }}</p>
                         </div>
                     </li>
 <!--                    <li class="me">-->
@@ -38,7 +40,7 @@
 
                 <div class="type">
                     <div><textarea placeholder="Type your message" [(ngModel)]="newMessage"></textarea></div>
-                  <button class="type__btn" type="button" [disabled]="!isSelected" (click)="sendMessage()">Send Message</button>
+                    <button class="type__btn" type="button" [disabled]="!isSelected" (click)="sendMessage()">Send Message</button>
 <!--                  <div class="room">-->
 <!--                    <input class="room__input" placeholder="Select room">-->
 <!--                    <button class="type__btn" type="button">Join</button>-->

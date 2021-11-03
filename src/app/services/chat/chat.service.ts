@@ -1,13 +1,13 @@
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {io} from 'socket.io-client'
-import {HttpClient} from "@angular/common/http";
-import {chatUser} from "../../models/chatUser.model";
-import {environment} from "../../../environments/environment";
-import {map, tap} from "rxjs/operators";
-import {Thread} from "../../models/thread.model";
-import {AuthService} from "../../modules/auth/services/auth.service";
-import {Message} from "../../models/message.model";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { io } from 'socket.io-client'
+import { HttpClient } from "@angular/common/http";
+import { chatUser } from "../../models/chatUser.model";
+import { environment } from "../../../environments/environment";
+import { map } from "rxjs/operators";
+import { Thread } from "../../models/thread.model";
+import { AuthService } from "../../modules/auth/services/auth.service";
+import { Message } from "../../models/message.model";
 
 
 @Injectable({
@@ -15,11 +15,11 @@ import {Message} from "../../models/message.model";
 })
 export class ChatService {
 
-  public message$: BehaviorSubject<string> = new BehaviorSubject('');
+  public message$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
   }
 
@@ -29,13 +29,14 @@ export class ChatService {
     return this.http.get<chatUser[]>(`${environment.baseUrl}/users`)
   }
 
-  public sendMessage(threadId: number, payload: Message) {
-    return this.http.post<Thread>(`${environment.baseUrl}/threads/${threadId}/messages`, payload)
+  sendMessage(threadId: number, payload: Message) {
+    this.socket.emit('message', payload);
+    return this.http.post<Message>(`${environment.baseUrl}/threads/${threadId}/messages`, payload)
   }
 
-  public getNewMessage = () => {
-    this.socket.on('message', (message) => {
-      this.message$.next(message);
+  getNewMessage() {
+    this.socket.on('message', (data) => {
+      this.message$.next(data);
     });
 
     return this.message$.asObservable();
@@ -45,11 +46,10 @@ export class ChatService {
     return this.http.get<Thread[]>(`${environment.baseUrl}/threads`)
       .pipe(
         map(threads => {
-            return threads.filter(thread => {
-                return thread.members.includes(memberId) && thread.members.includes(this.authService.currentUser$.getValue().id)
-            })
-          }
-        )
+          return threads.filter(thread => {
+            return thread.members.includes(memberId) && thread.members.includes(this.authService.currentUser$.getValue().id)
+          })
+        })
       )
   }
 

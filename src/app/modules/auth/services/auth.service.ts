@@ -1,6 +1,5 @@
-import {Injectable, OnInit} from '@angular/core';
-import {User} from "../../../models/user.model";
-import {BehaviorSubject, Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +12,9 @@ export class AuthService {
     if (currentUser) {
       this.currentUser$.next(JSON.parse(currentUser))
       return true;
-    } else {
-      this.currentUser$.next(null)
-      return false;
     }
+
+    this.currentUser$.next(null)
+    return false;
   }
 }
